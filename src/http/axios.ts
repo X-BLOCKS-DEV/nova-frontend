@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const client = axios.create({
-  baseURL: "http://127.0.0.1:8080/api/v1" 
+export const managerClient = axios.create({
+  baseURL: "http://localhost/manager-api" 
 });
-
-export default client
