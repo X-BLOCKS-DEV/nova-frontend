@@ -12,9 +12,8 @@ function Index() {
     })
   }
   return (
-    <div className="flex flex-col pt-8 px-6">
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <div className="p-3 mt-4 bg-slate-100 rounded">
+    <div className="flex flex-col px-6">
+        <div className="p-3 bg-slate-100 rounded">
             <h2 className="text-xl font-semibold">本体情報</h2>
             <div className="p-4 flex">
                 <p>製品名</p>
