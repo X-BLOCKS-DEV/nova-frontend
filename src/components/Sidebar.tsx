@@ -2,8 +2,6 @@ import { useState } from "react";
 import {
   AiOutlineArrowRight,
   AiOutlineArrowLeft,
-  AiOutlineFund,
-  AiOutlineGold,
   AiOutlineSetting,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -12,20 +10,8 @@ function Sidebar() {
   const [open, setOpen] = useState(true);
   const menus = [
     {
-      title: "Dashboard",
-      path: "/dashboard",
-      icon: <AiOutlineFund size={24} />,
-      gap: false,
-    },
-    {
-      title: "Reward History",
-      path: "/reward-history",
-      icon: <AiOutlineGold size={24} />,
-      gap: false,
-    },
-    {
       title: "Settings",
-      path: "/settings",
+      path: "/",
       icon: <AiOutlineSetting size={24} />,
       gap: true,
     },
@@ -49,7 +35,7 @@ function Sidebar() {
 
       <div className="flex gap-x-2 items-center">
         <img
-          src="./src/assets/nova-icon.jpg"
+          src="/nova-icon.jpg"
           className="w-16 cursor-pointer rounded-full"
         />
         <h1

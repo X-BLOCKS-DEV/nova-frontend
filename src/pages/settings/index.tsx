@@ -1,14 +1,42 @@
-import http from "../../http/axios";
+import { useEffect, useState } from "react";
+import { managerClient } from "../../http/axios";
 
 function Index() {
+  const [uptime, setUptime] = useState(0);
+  const [info, setInfo] = useState({
+    id: '',
+    version: ''
+  });
+
+  useEffect(() => {
+    managerClient.get('/v1/uptime').then((res) => {
+        setUptime(res.data.seconds)
+    });
+    managerClient.get('/v1/info').then((res) => {
+        setInfo(res.data)
+    });
+  }, []);
+
+  const parseSeconds = (sec: number) => {
+    var tmp = sec
+    const d = Math.floor(tmp / 60 / 60 / 24)
+    tmp = tmp % (24 * 60 * 60)
+    const h = Math.floor(tmp / 60 / 60)
+    tmp = tmp % (60 * 60)
+    const m = Math.floor(tmp / 60)
+    tmp = tmp % 60
+    const s = tmp % 60
+    return `${d} 日 ${h} 時間 ${m} 分 ${s} 秒`
+  }
+
   const reboot = () => {
-    http.get("/system/reboot").then(() => {
-        alert("再起動されました。しばらくした後にリロードしてください")
+    managerClient.post("/v1/reboot").then(() => {
+        alert("約10秒後に再起動されます。しばらくした後に再度リロードしてください")
     })
   }
   const shutdown = () => {
-    http.get("/system/shutdown").then(() => {
-        alert("シャットダウンされました。しばらくした後にリロードしてください")
+    managerClient.post("/v1/shutdown").then(() => {
+        alert("シャットダウンがリクエストされました。約10秒間後に安全に電源を抜き差しすることが可能になります。")
     })
   }
   return (
@@ -16,19 +44,14 @@ function Index() {
         <div className="p-3 bg-slate-100 rounded">
             <h2 className="text-xl font-semibold">本体情報</h2>
             <div className="p-4 flex">
-                <p>製品名</p>
-                <div className="grow" />
-                <p className="">Eizen</p>
-            </div>
-            <div className="p-4 flex">
                 <p>製品番号</p>
                 <div className="grow" />
-                <p className="">Nova-1030-0302</p>
+                <p className="">{info.id}</p>
             </div>
             <div className="p-4 flex">
                 <p>ソフトウェアバージョン</p>
                 <div className="grow" />
-                <p className="">v1.0.0</p>
+                <p className="">{info.version}</p>
             </div>
             <div className="p-4 flex">
                 <p>稼働状態</p>
@@ -38,7 +61,7 @@ function Index() {
             <div className="p-4 flex">
                 <p>連続起動時間</p>
                 <div className="grow" />
-                <p className="">30 分</p>
+                <p className="">{parseSeconds(uptime)}</p>
             </div>
         </div>
         <div className="p-3 mt-4 bg-slate-100 rounded">
